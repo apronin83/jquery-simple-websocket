@@ -82,6 +82,15 @@
                     self._close.apply(self, []);
                     self._reset.apply(self, []);
                     return self._api;
+                },
+				
+                isClosed: function(callback) {
+                    if (callback) {
+                        callback.apply(this, [self._isClosed.apply(self, [])]);
+                        return self._api;
+                    } else {
+                        return self._isClosed.apply(self, []);
+                    }
                 }
             };
         })();
@@ -213,6 +222,10 @@
             return this._ws !== null && this._ws.readyState === 1;
         },
 
+        _isClosed: function() {
+            return this._ws == null || this._ws.readyState === 3;
+        },
+      
         _reConnectTry: function() {
             var self = this;
             this._connect().done(function() {
